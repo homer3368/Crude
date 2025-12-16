@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: crud-migrate
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrate
+          image: crud-service:latest
+          command: ["python", "migrate.py"]
+          envFrom:
+            - configMapRef:
+                name: crud-config
+            - secretRef:
+                name: crud-secrets
